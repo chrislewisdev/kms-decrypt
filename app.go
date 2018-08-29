@@ -26,8 +26,11 @@ func main() {
 
 	//Encrypted KMS strings are base-64 encoded, so we need to decode it before decrypting it
 	decodedEncryptedValue, _ := base64.StdEncoding.DecodeString(*encodedEncryptedValue)
-	
-	result, _ := kmsService.Decrypt(&kms.DecryptInput{ CiphertextBlob: decodedEncryptedValue })
+
+	result, err := kmsService.Decrypt(&kms.DecryptInput{ CiphertextBlob: decodedEncryptedValue })
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println(string(result.Plaintext))
 }
